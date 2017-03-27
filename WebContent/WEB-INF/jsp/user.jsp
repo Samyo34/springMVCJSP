@@ -7,13 +7,20 @@
 </head>
 <body>
 	<form:form modelAttribute="user">
-	<form:input path="id" /><form:errors path="id" />
-	<form:input path="firstName" /><form:errors path="firstName" />
-	<form:input path="lastName" /><form:errors path="lastName" />
-	<form:input path="email" /><form:errors path="email" />
-	<form:input path="login" /><form:errors path="login" />
-	<form:input path="password" /><form:errors path="password" />
-	<input type="submit" value="Enregistrer" />
+		ID : <form:input path="id" /><form:errors path="id" />
+		firstName : <form:input path="firstName" /><form:errors path="firstName" />
+		lastName : <form:input path="lastName" /><form:errors path="lastName" />
+		email : <form:input path="email" /><form:errors path="email" />
+		login : <form:input path="login" /><form:errors path="login" />
+		password : <form:input path="password" /><form:errors path="password" />
+		<input type="submit" value="Enregistrer" />
 	</form:form>
+<%-- 	<s:message code="greeting"/>
+	<s:message code="farwall"/> --%>
+	<ul>
+		<c:forEach var="u" items="${users}">
+			<li>${u}</li>
+		</c:forEach>
+	</ul>
 </body>
 </html>

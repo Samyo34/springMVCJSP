@@ -5,31 +5,44 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.servlet.ModelAndView;
-
-import fr.dta.dao.UserDao;
+import fr.dta.dao.UserService;
 import fr.dta.model.User;
 
 @Controller
-@RequestMapping("api/user")
+@RequestMapping("user")
 public class UserController {
 	
-	@Autowired private UserDao userdao;
+	@Autowired private UserService userService;
 	
 	@RequestMapping(method = RequestMethod.GET)
 	public ModelAndView display() {
+		//List<User> list = userdao.getAll();
 		User user = new User();
+		user.setId(4);
 		ModelAndView mv = new ModelAndView("user");
 		mv.addObject("user", user);
+		mv.addObject("users", userService.getAll());
 		return mv;
+	}
+	
+	@RequestMapping(method = RequestMethod.POST)
+	public String validation(@ModelAttribute("user") @Valid User user,BindingResult bindingResult,Model mv) {
+		if (bindingResult.hasErrors()) {
+			System.out.println("failed "+bindingResult.getAllErrors());
+		}
+		else{
+			System.out.println(user.getId());
+			userService.add(user);
+			mv.addAttribute("users", userService.getAll());
+		}
+		return "user";
 	}
 
 /*	
